@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{Msg.fullname}}</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                    <h4 >{{Msg.email}}</h4>
+                                                    <h4 >{{Msg.Phone}}</h4>
+                                                    <p>{{Msg.Message}}</p>
+                                            </div>
+                                        </div>
+                                          
+                                    </div>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

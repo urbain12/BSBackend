@@ -1,0 +1,1 @@
+web gunicorn BSBackend.wsgi:application --log-file -

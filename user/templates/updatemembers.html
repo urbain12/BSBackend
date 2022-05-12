@@ -1,0 +1,84 @@
+  {% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update Member</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'updateUser'  updateuser.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">First Name</label>
+                                                    <input type="text" class="form-control" name="firstname" value={{updateuser.FirstName}}> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Last Name</label>
+                                                    <input type="text" class="form-control" name="lastname" value={{updateuser.LastName}}>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="row"> 
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Date of BIrth</label>
+                                                    <input type="date" class="form-control" name="dob" value={{updateuser.DOB}} style="height:32px"> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Weight (kg)</label>
+                                                    <input type="number" class="form-control" name="weight" value={{updateuser.Weight}}>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Height (m)</label>
+                                                    <input type="number" class="form-control" name="height" value={{updateuser.Height}}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Phone</label>
+                                                    <input type="text" class="form-control" name="phonenumber" value={{updateuser.phone}}>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Email</label>
+                                                    <input type="text" class="form-control" name="email" value={{updateuser.email}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

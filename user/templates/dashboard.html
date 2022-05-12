@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+{% load humanize %}
+<div id="page-content">
+                    
+					
+					<div class="row">
+					    <div class="col-lg-10 col-lg-offset-1">
+						<div class="panel panel-body ">
+					
+					        <div class="panel panel-body">
+					            <div class="panel-body">
+				
+					                <br>
+								<div class="all box">
+									<div class='row text-center' style="margin-top:30px">
+									<div class="col-md-12" >
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-body">
+										<p class="text-2x mar-no text-semibold">{{alllist}}</p>
+										<p class="mar-no text-1x">All User</p>
+					                        </div>
+					                    </div>
+					                </div>
+									</div>
+								</div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					
+					
+                </div>
+			</div>
+
+				<script>
+					var my_chart=document.getElementById('my_chart').getContext('2d')
+					var barChart=new Chart(my_chart,{
+						type:'bar',
+						data:{
+							labels:[
+							'January',
+							'February',
+							'March',
+							'April',
+							'May',
+							'June',
+							'July',
+							'August',
+							'September',
+							'Octobre',
+							'November',
+							'December'
+							],
+							datasets:[{
+								label:'Number of Subscribers By Overdue Months',
+								data:[3,4,22,22,17,15,20,14,11,9,6,3],
+								backgroundColor:['#FF6633','#809900' , '#FF33FF', '#FFFF99', '#00B3E6', 
+												'#E6B333', '#3366E6', '#999966', '#99FF99','#B34D4D' ,
+												'#80B300', '#FFB399']
+							}]
+						},
+						options:{},
+					})
+				</script>
+
+				
+
+{% endblock content%}
