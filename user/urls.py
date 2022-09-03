@@ -24,10 +24,12 @@ urlpatterns = [
     #API
     path('register/',register.as_view()),
     path('customer_login/',csrf_exempt(customer_login),name='customer_login'),
-    path('Queries/',QueriesListView.as_view()),
+    path('Queriesbyid/<int:user_id>/',Querieslistbyid.as_view()),
     path('CreateQuery/',QueriesCreateView.as_view()),
     path('AllGuides/',GuideListView.as_view()),
     path('change-password/', ChangePasswordView.as_view()),
     path('Updateuser/<id>/', UserUpdateView.as_view()),
+    path('reply/<int:requestID>/',reply,name='reply'),
+    path('getchildbyid/<int:user_id>/',GetchildbyId.as_view()),
     
    ]

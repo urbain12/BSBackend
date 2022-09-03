@@ -381,12 +381,44 @@ class GuideListView(ListAPIView):
     queryset = Guide.objects.all()
     serializer_class = GuideSerializer
 
+class GetGuideListView(ListAPIView):
+    serializer_class = GuideSerializer
+    def get_queryset(self):
+        return Guide.objects.filter(Title="Imirire")
+
 
 class QueriesCreateView(CreateAPIView):
     queryset = Queries.objects.all()
     serializer_class = QueriesSerializer
 
 
-class QueriesListView(ListAPIView):
-    queryset = Queries.objects.all()
+class Querieslistbyid(ListAPIView):
     serializer_class = QueriesSerializer
+    
+    def get_queryset(self):
+        return Queries.objects.filter(user=self.kwargs['user_id'])
+
+class GetchildbyId(ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.kwargs['user_id'])
+
+
+def reply(request, requestID):
+    if request.method == 'POST':
+        print('replyreply reply')
+        req = Queries.objects.only('id').get(
+            id=requestID)
+        req.reply = request.POST['Msg']
+        req.replied = True
+        req.save()
+        payload={'details':f'Dear {req.FirstName},\n we received your message, Here is our reply {req.reply}.','phone_number':'250787018287'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+        print(r.message)
+        print(payload)
+        return redirect('Message')
+    else:
+        message = Queries.objects.get(id=requestID)
+        return render(request, 'reply.html', {'message': message})
