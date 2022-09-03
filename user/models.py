@@ -1,8 +1,10 @@
+from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db.models.base import Model
 from django.db.models.fields import CharField
 from django.db.models.fields.files import ImageField
+from django.forms import DateField
 from django.http import request
 import datetime
 
@@ -94,10 +96,18 @@ class Guide(models.Model):
 
 
 class Queries(models.Model):
-    fullname = models.CharField(max_length=250,blank=True,null=True)
-    email = models.EmailField(max_length=250,blank=True,null=True)
+    user = models.ForeignKey(
+        'User', on_delete=models.CASCADE, null=True, blank=True)
+    FirstName = models.CharField(max_length=250,blank=True,null=True)
+    LastName = models.CharField(max_length=250,blank=True,null=True)
+    DoB = models.DateField(blank=True,null=True)
     Phone = models.CharField(max_length=250,blank=True,null=True)
     Message = models.CharField(max_length=250,blank=True,null=True)
+    category = models.CharField(max_length=250,blank=True,null=True)
+    reply = models.TextField(blank=True, null=True,
+                             default="Please wait for the response")
+    replied = models.BooleanField(default=False)
+    send_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.fullname
+        return self.FirstName
