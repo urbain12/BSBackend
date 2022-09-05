@@ -18,7 +18,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Title</label>
-                                                    <select class="form-control" name="title" required>
+                                                    <select class="form-control" name="title" id="slct1" onchange="populate(this.id,'slct2')" required>
                                                         <option value="Select meter number" >Select Title</option> 
                                                         <option value="Imirire">Imirire</option> 
                                                         <option value="Isuku">Isuku</option> 
@@ -31,15 +31,8 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Sub Title</label>
-                                                    <select class="form-control" name="title" required>
-                                                        <option value="Select meter number" >Select Title</option> 
-                                                        <option value="amezi 0-3">amezi 0-3</option> 
-                                                        <option value="amezi 4-6">amezi 4-6</option> 
-                                                        <option value="Amezi 7-12">Amezi 7-12</option> 
-                                                        <option value="Amezi 10-12 ">Amezi 10-12 </option> 
-                                                        <option value="Umubiri ">Umubiri </option> 
-                                                        <option value="Amazuru ">Amazuru </option> 
-                                                        <option value="Amaso & Amatwi ">Amaso & Amatwi </option> 
+                                                    <select class="form-control" name="sTitle" id="slct2" required>
+                                                        <option value="Select meter number" >Select SubTitle</option> 
                                                      </select>  
                                                 </div>
                                             </div>
@@ -63,7 +56,28 @@
                             </div>
 					
 					
-					
+                            <script>
+                                function populate(s1,s2){
+                                    var s1 = document.getElementById(s1);
+                                    var s2 = document.getElementById(s2);
+                                    s2.innerHTML = "";
+                                    if(s1.value == "Imirire"){
+                                        var optionArray = ["|","Amezi 0-3|Amezi 0-3","Amezi 4-6|Amezi 4-6 ","Amezi 7-12|Amezi 7-12"];
+                                    } else if(s1.value == "Imikurire"){
+                                        var optionArray = ["|","Amezi 0-3|Amezi 0-3","Amezi 4-6|Amezi 4-6 ","Amezi 7-9|Amezi 7-9","Amezi 10-12|Amezi 10-12"];
+                                    } 
+                                    else if(s1.value == "Isuku"){
+                                        var optionArray = ["|","Umubiri|Umubiri","Amazuru|Amazuru","Amaso|Amaso","Amatwi|Amatwi"];
+                                    } 
+                                    for(var option in optionArray){
+                                        var pair = optionArray[option].split("|");
+                                        var newOption = document.createElement("option");
+                                        newOption.value = pair[0];
+                                        newOption.innerHTML = pair[1];
+                                        s2.options.add(newOption);
+                                    }
+                                }
+                                </script>
 					
 					
 					
