@@ -11,7 +11,7 @@ import datetime
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, email,FirstName=None,LastName=None,Weight=None,Height=None,DOB=None, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email,FirstName=None,LastName=None,MName=None,FName=None,Weight=None,Height=None,DOB=None, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
         if not phone:
@@ -25,6 +25,8 @@ class UserManager(BaseUserManager):
         user_obj.staff = is_staff
         user_obj.FirstName = FirstName
         user_obj.LastName = LastName
+        user_obj.MName = MName
+        user_obj.FName = FName
         user_obj.Weight = Weight
         user_obj.Height = Height
         user_obj.DOB = DOB
@@ -34,9 +36,9 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self, email,FirstName=None,LastName=None,Weight=None,Height=None,DOB=None,  phone=None, password=None):
+    def create_staffuser(self, email,FirstName=None,LastName=None,MName=None,FName=None,Weight=None,Height=None,DOB=None,  phone=None, password=None):
         user = self.create_user(
-            email,FirstName=FirstName,LastName=LastName,Weight=Weight,Height=Height,DOB=DOB,  phone=phone, password=password, is_staff=True)
+            email,FirstName=FirstName,LastName=LastName,MName=MName,FName=FName,Weight=Weight,Height=Height,DOB=DOB,  phone=phone, password=password, is_staff=True)
         return user
 
     def create_superuser(self, email,FirstName=None,LastName=None, phone=None, password=None):
@@ -48,6 +50,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     FirstName=models.CharField(max_length=255,  null=True, blank=True)
     LastName=models.CharField(max_length=255,  null=True, blank=True)
+    MName=models.CharField(max_length=255,  null=True, blank=True)
+    FName=models.CharField(max_length=255,  null=True, blank=True)
     Weight=models.CharField(max_length=255,  null=True, blank=True)
     Height=models.CharField(max_length=255,  null=True, blank=True)
     DOB = models.DateField(auto_now_add=False,null=True, blank=True)

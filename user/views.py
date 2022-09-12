@@ -89,6 +89,8 @@ def updateUser(request, upID):
     if request.method == "POST":
         updateuser.FirstName = request.POST["firstname"]
         updateuser.LastName = request.POST["lastname"]
+        updateuser.MName = request.POST["MName"]
+        updateuser.FName = request.POST["FName"]
         updateuser.Weight = request.POST["weight"]
         updateuser.Height = request.POST["height"]
         updateuser.DOB = request.POST["dob"]
@@ -161,6 +163,8 @@ class register(CreateAPIView):
                 user = User.objects.create_user(
                     FirstName=request.data["FirstName"],
                     LastName=request.data["LastName"],
+                    MName=request.data["MName"],
+                    FName=request.data["FName"],
                     Weight=request.data["Weight"],
                     Height=request.data["Height"],
                     DOB=request.data["DOB"],
