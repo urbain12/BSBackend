@@ -59,6 +59,8 @@ def operator(request):
                 user = User.objects.create_user(
                     FirstName=request.POST["firstname"],
                     LastName=request.POST["lastname"],
+                    MName=request.POST["MName"],
+                    FName=request.POST["FName"],
                     Weight=request.POST["weight"],
                     Height=request.POST["weight"],
                     DOB=request.POST["DOB"],
