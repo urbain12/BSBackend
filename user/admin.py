@@ -9,3 +9,4 @@ from .models import *
 admin.site.register(User)
 admin.site.register(Guide)
 admin.site.register(Queries)
+admin.site.register(Vaccines)

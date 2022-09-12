@@ -227,6 +227,16 @@
                                         </a>
                                     </li>
 
+                                    {% url 'Vaccination' as vax %}
+                                    <li {% if request.path == vax  %} class="active-sub"{% endif %}>
+                                        <a href="{{vax}}">
+                                            <i class="fa fa-wpforms"></i>
+                                            <span class="menu-title">
+                                                <strong>Vaccinated</strong>
+                                            </span>
+                                        </a>
+                                    </li>
+
                                     {% url 'Guides' as trans %}
                                     <li {% if request.path == trans  %} class="active-sub"{% endif %}>
                                         <a href="{{trans}}">

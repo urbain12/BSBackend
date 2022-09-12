@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load humanize %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{user.FirstName}} {{user.LastName}} Vaccines</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                        <button value="click" onclick="printDiv()" id="demo-btn-addrow" class="btn btn-mint"><i class="fa fa-print fa-lg"></i>&nbsp; &nbsp;Print</button>
+                                        <a href="{% url 'export_report_csv' user.id%}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="onlytable" class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th>Types</th>
+                                            <th>Taken on</th>
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for Vaccine in vaccines %}
+                                    <tr>
+                                            <td>{{Vaccine.Vaxtype}}</td>
+                                            <td>{{Vaccine.added_at}}</td>
+                                        </tr>
+
+                                    {% endfor %} 
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+                <script>
+                    function printDiv() {
+                        var divContents = document.getElementById("onlytable").innerHTML;
+                        var a = window.open('', '', 'height=2000, width=2000');
+                        a.document.write('<html> <title');
+                        a.document.write('<body> <h1>Transactions<br>');
+                        a.document.write(divContents);
+                        a.document.write('</body></html>');
+                        a.document.close();
+                        a.print();
+                    }
+                </script>
+{% endblock content%}

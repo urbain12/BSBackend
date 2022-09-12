@@ -16,12 +16,17 @@ class ChangePasswordSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id','FirstName','LastName','MName','FName','Weight','Height','DOB','email','phone','remVax','takeVax']
 
 
 class GuideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guide
+        fields = '__all__'
+
+class VaxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vaccines
         fields = '__all__'
 
 

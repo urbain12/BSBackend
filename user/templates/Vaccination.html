@@ -1,0 +1,120 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load humanize %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">List of Vaccinations</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                        <a href="{% url 'AddVaccine' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+
+                                        <div class="btn-group">
+                                            <div class="form-group">
+                                        <form class="form-inline my-2 my-lg-0" action="{% url 'Vaccination'%}">
+                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by Title" class="form-control" autocomplete="off">
+                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
+                                        </form>
+                                        </div>
+                                   
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th>Child Names</th>
+                                            <th>Taken Vaccines</th>
+                                            <th>Remaining Vaccines</th>
+                                            <th>Actions</th>
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for Vaccine in page_obj %}
+                                    <tr>
+                                            <td>{{Vaccine.FirstName}}</td>
+                                            <td>{{Vaccine.takeVax}}</td>
+                                            <td>{{Vaccine.remVax}}</td>
+
+                                            <td>
+                                                <a  href="{% url 'add_vaccine' Vaccine.id %}">
+                                                <button class="btn btn-success">Adding</button>
+                                                </a>
+                                            </td>
+                                            
+                                            {% comment %} <td>
+                                                {% if guide.Publish %}
+                                                <a onclick="return confirm('Are you sure you want to publish this?')" href="{% url 'publish_guide' guide.id %}">
+                                                <button class="btn btn-success">Publish</button>
+                                                </a>
+                                            {% else %}
+                                                <a onclick="return confirm('Are you sure you want to unpublish this?')" href="{% url 'unpublish_guide' guide.id %}">
+                                                <button class="btn btn-warning">Unpublish</button>
+                                                </a>
+                                            {% endif %}
+                                                <a href="{% url 'updateGuide' guide.id %}">
+                                                    <button class="btn btn-primary">Update</button>
+                                                </a>
+                                                <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_Guide' guide.id %}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </a> 
+                                                <a href="{% url 'full_description' guide.id %}">
+                                                <button class="btn btn-success"><i class="fa fa-eye"></i></button>
+                                                </a>
+                                            </td> {% endcomment %}
+                                            
+                                        </tr>
+
+                                    {% endfor %} 
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

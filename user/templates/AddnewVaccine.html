@@ -1,0 +1,79 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add new Vaccine</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'AddVaccine' %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+
+                                                    <label class="control-label">Children</label>
+                                                    <select class="form-control" name="user" id="slct1" onchange="populate(this.id,'slct2')" required>
+                                                        <option value="Select meter number" >Select Child</option>
+                                                        {% for user in users %} 
+                                                            <option value="{{user.id}}">{{user.FirstName}} {{user.LastName}}</option> 
+                                                        {% endfor %}
+                                                     </select>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="control-label">Select vaccine</label>
+                                        <div class="row" style="margin-top:10px;margin-left:30px;">
+                                            {% for vax in vaccines %} 
+                                            <div class="col-sm-2">
+                                                <b >{{vax}}:</b> <input type="radio"  name="vax" value={{vax}} required style="margin-left:10px;">
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+                            <script>
+                                function populate(s1,s2){
+                                    var s1 = document.getElementById(s1);
+                                    var s2 = document.getElementById(s2);
+                                    s2.innerHTML = "";
+                                    if(s1.value == "Imirire"){
+                                        var optionArray = ["|","Amezi 0-6|Amezi 0-6","Amezi 6-10|Amezi 6-10","Amezi 10-15|Amezi 10-15"];
+                                    } else if(s1.value == "Imikurire"){
+                                        var optionArray = ["|","Amezi 0-4|Amezi 0-4","Amezi 4-6|Amezi 4-6 ","Amezi 6-12|Amezi 6-12"];
+                                    } 
+                                    else if(s1.value == "Isuku"){
+                                        var optionArray = ["|","Umubiri|Umubiri","Amenyo|Amenyo","Amatwi|Amatwi","Guhindura(pamper)|Guhindura(pamper)"];
+                                    } 
+                                    for(var option in optionArray){
+                                        var pair = optionArray[option].split("|");
+                                        var newOption = document.createElement("option");
+                                        newOption.value = pair[0];
+                                        newOption.innerHTML = pair[1];
+                                        s2.options.add(newOption);
+                                    }
+                                }
+                                </script>
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

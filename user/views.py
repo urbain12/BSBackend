@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import *
-
+from django.db.models import Q
 # from .utils import cartData, check_transaction, check_instalment
 from rest_framework.generics import (
     ListAPIView,
@@ -38,6 +38,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 import requests
 import os
+import csv
+
 
 # Users
 def operator(request):
@@ -426,3 +428,125 @@ def reply(request, requestID):
     else:
         message = Queries.objects.get(id=requestID)
         return render(request, 'reply.html', {'message': message})
+
+
+def AddVaccine(request):
+    if request.method == 'POST':
+        print('working')
+        AddVaccines = Vaccines()
+        AddVaccines.Vaxtype = request.POST['vax']
+        if request.POST['user'] != '':
+            user = User.objects.get(
+                id=int(request.POST['user']))
+            AddVaccines.user = user
+        AddVaccines.save()
+        return redirect('Vaccination')
+    else:
+        vaccines_=Vaccines.objects.all()
+        users_=[]
+        for vax in vaccines_:
+            users_.append(vax.user.id)
+        users=User.objects.exclude(id__in=users_)
+        vaccines=['Birth','SixWeeks','TenWeeks','FourteenWeeks','NineMonths','FifteenMonths']
+        return render(request, 'AddnewVaccine.html', {'users': users,'vaccines':vaccines})
+
+
+def add_vaccine(request,userID):
+    user = User.objects.get(id=userID)
+    if request.method == 'POST':
+        print('working')
+        AddVaccines = Vaccines()
+        AddVaccines.Vaxtype = request.POST['vax']
+        AddVaccines.user = user
+        AddVaccines.save()
+        return redirect('Vaccination')
+    else:
+        
+        vaccines=user.remVax.split(", ")
+        return render(request, 'add_vaccine.html', {'user': user,'vaccines':vaccines})
+
+
+@login_required(login_url="/login")
+def Vaccination(request):
+    users = User.objects.all()
+    search_query = request.GET.get("search", "")
+    if search_query:
+        users = User.objects.filter(
+                Q(FirstName__icontains=search_query))
+       
+        
+    paginator = Paginator(users, 6)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "Vaccination.html", {"users": users, "page_obj": page_obj})
+
+
+@login_required(login_url='/login')
+def Reports(request, UserID):
+    user = User.objects.get(id=UserID)
+    vaccines = Vaccines.objects.filter(
+        user=UserID)
+    return render(request, 'ChildReport.html', {'user': user, 'vaccines': vaccines})
+
+
+def export_report_csv(request, UserID):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    customer = User.objects.get(id=UserID)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} Vaccine Report - {ondate}.csv"'
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Isaro App'
+    ])
+    writer.writerow([
+    
+
+                str(customer.FirstName) +' '+str(customer.LastName)+
+                ' ' "Vaccination Report"
+
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    
+    writer.writerow(['Types',
+                    'date' ])
+                    
+    customer = User.objects.filter(id=UserID)
+    payments = Vaccines.objects.filter(
+        user=UserID)
+    instalments = []
+    for sub in payments:
+
+        transactions = [
+            
+            sub.Vaxtype,
+            sub.added_at.strftime("%Y-%m-%d"),
+        ]
+
+        print(transactions)
+        print(type(transactions))
+        instalments.append(transactions)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
+
+
+class VaxlistbyID(ListAPIView):
+    serializer_class = VaxSerializer
+    
+    def get_queryset(self):
+        return Vaccines.objects.filter(user=self.kwargs['user_id'])

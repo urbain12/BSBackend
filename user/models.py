@@ -77,6 +77,32 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
     @property
+    def takeVax(self):
+        vaccines = self.vaccines_set.all()
+        vaccines_=[]
+        for vax in vaccines:
+            vaccines_.append(vax.Vaxtype)
+        return ", ".join(vaccines_)
+
+    @property
+    def isVaccinated(self):
+        vaccines = self.vaccines_set.all()
+        if len(vaccines)>0:
+            hasvax=True
+        else:
+            hasvax=False
+        return hasvax
+
+    @property
+    def remVax(self):
+        vaccines = self.vaccines_set.all()
+        vaccines_=[]
+        for vax in vaccines:
+            vaccines_.append(vax.Vaxtype)
+        remVax_=list(set(['Birth','SixWeeks','TenWeeks','FourteenWeeks','NineMonths','FifteenMonths']) - set(vaccines_))
+        return ", ".join(remVax_)
+
+    @property
     def is_staff(self):
         return self.staff
 
@@ -94,9 +120,6 @@ class Guide(models.Model):
     Description = models.TextField(null=True, blank=True)
     Publish = models.BooleanField(default=False)
     added_at = models.DateField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.Title
 
 
 class Queries(models.Model):
@@ -113,5 +136,11 @@ class Queries(models.Model):
     replied = models.BooleanField(default=False)
     send_at = models.DateField(auto_now_add=True)
 
-    def __str__(self):
-        return self.FirstName
+
+class Vaccines(models.Model):
+    user = models.ForeignKey(
+        'User', on_delete=models.CASCADE, null=True, blank=True)
+    Vaxtype = models.CharField(max_length=250,blank=True,null=True)
+    added_at = models.DateField(auto_now_add=True)
+
+    
