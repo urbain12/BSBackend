@@ -41,8 +41,8 @@ class UserManager(BaseUserManager):
             email,FirstName=FirstName,LastName=LastName,MName=MName,FName=FName,Weight=Weight,Height=Height,DOB=DOB,  phone=phone, password=password, is_staff=True)
         return user
 
-    def create_superuser(self, email,FirstName=None,LastName=None, phone=None, password=None):
-        user = self.create_user(email,FirstName='0787018257',LastName='0787018257', phone='0787018287',
+    def create_superuser(self, email,FirstName=None,LastName=None,MName=None,FName=None, phone=None, password=None):
+        user = self.create_user(email,FirstName='0781269507',LastName='0781269507',MName="MName",FName="FName", phone='0787018287',
                                 password=password, is_staff=True, is_admin=True)
         return user
 
