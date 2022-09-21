@@ -141,6 +141,7 @@ class Vaccines(models.Model):
     user = models.ForeignKey(
         'User', on_delete=models.CASCADE, null=True, blank=True)
     Vaxtype = models.CharField(max_length=250,blank=True,null=True)
+    Vaxplace = models.CharField(max_length=250,blank=True,null=True)
     added_at = models.DateField(auto_now_add=True)
 
     
