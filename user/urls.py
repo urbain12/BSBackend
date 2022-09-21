@@ -11,6 +11,7 @@ urlpatterns = [
     path('add_vaccine/<int:userID>/',add_vaccine,name='add_vaccine'),
     path('Reports/<int:UserID>/',Reports,name='Reports'),
     path('export_report_csv/<int:UserID>/',export_report_csv,name='export_report_csv'),
+    path('export_general_report_csv/',export_general_report_csv,name='export_general_report_csv'),
     path('Vaccination/',Vaccination,name='Vaccination'),
     path('user/',user,name='user'),
     path('operator/',operator,name='operator'),

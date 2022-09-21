@@ -82,7 +82,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         vaccines_=[]
         for vax in vaccines:
             vaccines_.append(vax.Vaxtype)
-        return ", ".join(vaccines_)
+        str_takeVax=", ".join(vaccines_)
+        if str_takeVax=='':
+            str_takeVax='0'
+        return str_takeVax
 
     @property
     def isVaccinated(self):
@@ -100,7 +103,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         for vax in vaccines:
             vaccines_.append(vax.Vaxtype)
         remVax_=list(set(['Birth','SixWeeks','TenWeeks','FourteenWeeks','NineMonths','FifteenMonths']) - set(vaccines_))
-        return ", ".join(remVax_)
+        str_remVax=", ".join(remVax_)
+        if str_remVax=='':
+            str_remVax='0'
+        return str_remVax
 
     @property
     def is_staff(self):
