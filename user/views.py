@@ -545,6 +545,54 @@ def export_report_csv(request, UserID):
     return response
 
 
+
+def export_general_report_csv(request):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="General Vaccine Report - {ondate}.csv"'
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Isaro App'
+    ])
+    
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    
+    writer.writerow(['Child Names','Taken vaccines',
+                    'Remaining vaccines' ])
+                    
+    payments = User.objects.all()
+    instalments = []
+    for sub in payments:
+
+        transactions = [
+            sub.FirstName+" "+sub.LastName,
+            sub.takeVax,
+            sub.remVax,
+        ]
+
+        print(transactions)
+        print(type(transactions))
+        instalments.append(transactions)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
+
+
 class VaxlistbyID(ListAPIView):
     serializer_class = VaxSerializer
     
