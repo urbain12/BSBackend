@@ -179,7 +179,7 @@ class register(CreateAPIView):
                 response = {
                     "status": "success",
                     "code": status.HTTP_200_OK,
-                    "message": "Child Registered successfully!!!",
+                    "message": "Kwiyandikisha byagenze neza!!!",
                     "data": [],
                 }
 
@@ -201,7 +201,7 @@ def customer_login(request):
                     "status": "success",
                     "token": str(token),
                     "code": status.HTTP_200_OK,
-                    "message": "Login successfull",
+                    "message": "Kwinjira byagenze neza",
                     "data": [],
                 }
                 dump = json.dumps(data)
