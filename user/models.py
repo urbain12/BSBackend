@@ -140,7 +140,7 @@ class Queries(models.Model):
     Message = models.CharField(max_length=250,blank=True,null=True)
     category = models.CharField(max_length=250,blank=True,null=True)
     reply = models.TextField(blank=True, null=True,
-                             default="Please wait for the response")
+                             default="Mwihangane igihe mutegereje igisubizo!")
     replied = models.BooleanField(default=False)
     send_at = models.DateField(auto_now_add=True)
 
