@@ -40,6 +40,7 @@
                                             <th>Last Name</th>
                                             <th>Mother's Name</th>
                                             <th>Father's Name</th>
+                                            <th>Place of Birth</th>
                                             <th>Phone Number</th>
                                             <th>Email</th>
                                             <th>Date of Birth</th>
@@ -51,11 +52,12 @@
                                     <tbody>
                                     {% for user in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{user.id}}</a></td>
+                                            <td><a class="btn-link" href="#">HC{{user.id}}</a></td>
                                             <td>{{user.FirstName}}</td>
                                             <td>{{user.LastName}}</td>
                                             <td>{{user.MName}}</td>
                                             <td>{{user.FName}}</td>
+                                            <td>{{user.PBirth}}</td>
                                             <td>{{user.phone}}</td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.DOB}}</td>

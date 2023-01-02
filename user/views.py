@@ -63,6 +63,7 @@ def operator(request):
                     LastName=request.POST["lastname"],
                     MName=request.POST["MName"],
                     FName=request.POST["FName"],
+                    PBirth=request.POST["PBirth"],
                     Weight=request.POST["weight"],
                     Height=request.POST["weight"],
                     DOB=request.POST["DOB"],
@@ -95,6 +96,7 @@ def updateUser(request, upID):
         updateuser.LastName = request.POST["lastname"]
         updateuser.MName = request.POST["MName"]
         updateuser.FName = request.POST["FName"]
+        updateuser.PBirth=request.POST["PBirth"]
         updateuser.Weight = request.POST["weight"]
         updateuser.Height = request.POST["height"]
         updateuser.DOB = request.POST["dob"]
@@ -169,6 +171,7 @@ class register(CreateAPIView):
                     LastName=request.data["LastName"],
                     MName=request.data["MName"],
                     FName=request.data["FName"],
+                    PBirth=request.POST["PBirth"],
                     Weight=request.data["Weight"],
                     Height=request.data["Height"],
                     DOB=request.data["DOB"],
@@ -435,6 +438,7 @@ def AddVaccine(request):
         print('working')
         AddVaccines = Vaccines()
         AddVaccines.Vaxtype = request.POST['vax']
+        AddVaccines.Vaxplace = request.POST['vplace']
         if request.POST['user'] != '':
             user = User.objects.get(
                 id=int(request.POST['user']))
@@ -457,6 +461,7 @@ def add_vaccine(request,userID):
         print('working')
         AddVaccines = Vaccines()
         AddVaccines.Vaxtype = request.POST['vax']
+        AddVaccines.Vaxplace = request.POST['vplace']
         AddVaccines.user = user
         AddVaccines.save()
         return redirect('Vaccination')
@@ -472,7 +477,7 @@ def Vaccination(request):
     search_query = request.GET.get("search", "")
     if search_query:
         users = User.objects.filter(
-                Q(FirstName__icontains=search_query))
+                Q(id__icontains=search_query))
        
         
     paginator = Paginator(users, 6)

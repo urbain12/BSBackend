@@ -22,7 +22,7 @@
                                         <div class="btn-group">
                                             <div class="form-group">
                                         <form class="form-inline my-2 my-lg-0" action="{% url 'Vaccination'%}">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by Title" class="form-control" autocomplete="off">
+                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by Child id" class="form-control" autocomplete="off">
                                         <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
                                         </form>
                                         </div>
@@ -36,9 +36,11 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
+                                            <th>Child ID</th>
                                             <th>Child Names</th>
                                             <th>Taken Vaccines</th>
                                             <th>Remaining Vaccines</th>
+                                            <th>Missed Vaccines</th>
                                             <th>Actions</th>
                                             
                                             
@@ -47,9 +49,11 @@
                                     <tbody>
                                     {% for Vaccine in page_obj %}
                                     <tr>
+                                            <td>HC{{Vaccine.id}}</td>
                                             <td>{{Vaccine.FirstName}}</td>
                                             <td>{{Vaccine.takeVax}}</td>
                                             <td>{{Vaccine.remVax}}</td>
+                                            <td>FourteenWeeks</td>
 
                                             <td>
                                                 <a  href="{% url 'add_vaccine' Vaccine.id %}">
