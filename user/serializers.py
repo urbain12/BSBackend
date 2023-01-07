@@ -16,7 +16,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','FirstName','LastName','MName','FName','Weight','Height','DOB','email','phone','remVax','takeVax']
+        fields = ['id','FirstName','LastName','MName','FName','Weight','Height','DOB','email','phone','PBirth','remVax','takeVax',]
 
 
 class GuideSerializer(serializers.ModelSerializer):

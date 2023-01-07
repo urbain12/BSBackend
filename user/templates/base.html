@@ -237,7 +237,7 @@
                                         </a>
                                     </li>
 
-                                    {% url 'Guides' as trans %}
+                                    {% comment %} {% url 'Guides' as trans %}
                                     <li {% if request.path == trans  %} class="active-sub"{% endif %}>
                                         <a href="{{trans}}">
                                             <i class="fa fa-book"></i>
@@ -245,7 +245,7 @@
                                                 <strong>Guide</strong>
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> {% endcomment %}
                                     {% url 'Message' as msg %}
                                     <li {% if request.path == msg  %} class="active-sub"{% endif %}>
                                         <a href="{{msg}}">
