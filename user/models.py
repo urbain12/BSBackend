@@ -6,8 +6,8 @@ from django.db.models.fields import CharField
 from django.db.models.fields.files import ImageField
 from django.forms import DateField
 from django.http import request
-import datetime
-
+from datetime import datetime
+from datetime import timedelta
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -81,6 +81,34 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def takeVax(self):
         vaccines = self.vaccines_set.all()
+        vaccines_=[]
+        for vax in vaccines:
+            vaccines_.append(vax.Vaxtype)
+        str_takeVax=", ".join(vaccines_)
+        if str_takeVax=='':
+            str_takeVax='0'
+        return str_takeVax
+
+
+    @property
+    def takenVaxWeekly(self):
+        end_date =datetime.now()
+        start_date = end_date - timedelta(7)
+        vaccines = self.vaccines_set.filter(added_at__range=[start_date.date(),end_date.date()])
+        vaccines_=[]
+        for vax in vaccines:
+            vaccines_.append(vax.Vaxtype)
+        str_takeVax=", ".join(vaccines_)
+        if str_takeVax=='':
+            str_takeVax='0'
+        return str_takeVax
+
+
+    @property
+    def takenVaxDaily(self):
+        today = datetime.now()
+        tomorrow = datetime.now().date()+timedelta(1)
+        vaccines = self.vaccines_set.filter(added_at__gte=today.date(),added_at__lte=tomorrow)
         vaccines_=[]
         for vax in vaccines:
             vaccines_.append(vax.Vaxtype)

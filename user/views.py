@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import *
 from django.db.models import Q
+import threading
 # from .utils import cartData, check_transaction, check_instalment
 from rest_framework.generics import (
     ListAPIView,
@@ -39,8 +40,18 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 import requests
 import os
 import csv
+from twilio.rest import Client
 
-
+#send message func
+def send_message(first_name,last_name,my_phone):
+    account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
+    auth_token = '2b86a18597744c3e8e533204b543fc78'
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+                            body=f'Mwaramutse , \n \n Twabibutsa ga yuko {first_name} {last_name} agomba kuza gufata urukingo mu minsi itatu iri imbere ',
+                            from_='+18609578207',
+                            to=f'+25{my_phone}' 
+                            )
 # Users
 def operator(request):
     if request.method == "POST":
@@ -71,6 +82,8 @@ def operator(request):
                     phone=request.POST["phonenumber"],
                     password=request.POST["password"],
                 )
+                r = threading.Timer(180.0, send_message, (request.POST["firstname"],request.POST["lastname"],request.POST["phonenumber"]))
+                r.start()
             return redirect("user")
     else:
         return render(request, "operator.html")
@@ -586,6 +599,101 @@ def export_general_report_csv(request):
         transactions = [
             sub.FirstName+" "+sub.LastName,
             sub.takeVax,
+            sub.remVax,
+        ]
+
+        print(transactions)
+        print(type(transactions))
+        instalments.append(transactions)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
+
+
+def export_report_csv_last_7_days(request):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Last 7 days Vaccine Report - {ondate}.csv"'
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Isaro App'
+    ])
+    
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    
+    writer.writerow(['Child Names','Taken vaccines',
+                    'Remaining vaccines' ])
+                    
+    payments = User.objects.all()
+    instalments = []
+    for sub in payments:
+
+        transactions = [
+            sub.FirstName+" "+sub.LastName,
+            sub.takenVaxWeekly,
+            sub.remVax,
+        ]
+
+        print(transactions)
+        print(type(transactions))
+        instalments.append(transactions)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
+
+
+
+def export_report_csv_today(request):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Today\'s Vaccine Report - {ondate}.csv"'
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Isaro App'
+    ])
+    
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    
+    writer.writerow(['Child Names','Taken vaccines',
+                    'Remaining vaccines' ])
+                    
+    payments = User.objects.all()
+    instalments = []
+    for sub in payments:
+
+        transactions = [
+            sub.FirstName+" "+sub.LastName,
+            sub.takenVaxDaily,
             sub.remVax,
         ]
 

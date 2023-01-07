@@ -19,6 +19,8 @@
                                     <div class="col-sm-12 table-toolbar-right">
                                         <a href="{% url 'AddVaccine' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
                                         <a href="{% url 'export_general_report_csv' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;General Report</button></a>
+                                        <a href="{% url 'export_report_csv_last_7_days' %}"> <button class="btn btn-info my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Last 7 days Report</button></a>
+                                        <a href="{% url 'export_report_csv_today' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Today Report</button></a>
                                         <div class="btn-group">
                                             <div class="form-group">
                                         <form class="form-inline my-2 my-lg-0" action="{% url 'Vaccination'%}">
