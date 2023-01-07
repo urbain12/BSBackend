@@ -11,7 +11,7 @@ import datetime
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, email,FirstName=None,LastName=None,PBirth=None,MName=None,FName=None,Weight=None,Height=None,DOB=None, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email,FirstName=None,LastName=None,typee=None,PBirth=None,MName=None,FName=None,Weight=None,Height=None,DOB=None, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
         if not phone:
@@ -32,14 +32,15 @@ class UserManager(BaseUserManager):
         user_obj.Height = Height
         user_obj.DOB = DOB
         user_obj.phone = phone
+        user_obj.typee = typee
         user_obj.admin = is_admin
         user_obj.active = is_active
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self, email,FirstName=None,LastName=None,PBirth=None,MName=None,FName=None,Weight=None,Height=None,DOB=None,  phone=None, password=None):
+    def create_staffuser(self, email,FirstName=None,LastName=None,PBirth=None,MName=None,typee=None,FName=None,Weight=None,Height=None,DOB=None,  phone=None, password=None):
         user = self.create_user(
-            email,FirstName=FirstName,LastName=LastName,MName=MName,PBirth=PBirth,FName=FName,Weight=Weight,Height=Height,DOB=DOB,  phone=phone, password=password, is_staff=True)
+            email,FirstName=FirstName,LastName=LastName,MName=MName,PBirth=PBirth,FName=FName,typee=typee,Weight=Weight,Height=Height,DOB=DOB,  phone=phone, password=password, is_staff=True)
         return user
 
     def create_superuser(self, email,FirstName=None,LastName=None,MName=None,FName=None, phone=None, password=None):
@@ -58,8 +59,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     Height=models.CharField(max_length=255,  null=True, blank=True)
     DOB = models.DateField(auto_now_add=False,null=True, blank=True)
     email = models.EmailField(max_length=255, unique=True)
-    phone = models.CharField(
-        max_length=255, unique=True, null=True, blank=True)
+    phone = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    typee = models.CharField(max_length=255, null=True, blank=True)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
