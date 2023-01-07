@@ -676,7 +676,7 @@ def resetPassword(request):
         user.set_password(password)
         user.save()
         account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
-        auth_token = 'c4016b18995ad8012f17a818eebdda06'
+        auth_token = '2b86a18597744c3e8e533204b543fc78'
         client = Client(account_sid, auth_token)
         message = client.messages.create(
                                 body=f'Hi {name}, \nYour new password is : {password}',
