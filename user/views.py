@@ -11,6 +11,10 @@ from rest_framework.generics import (
     UpdateAPIView,
 )
 from .models import *
+import secrets
+import string
+
+
 
 # from dateutil.relativedelta import *
 from django.contrib.auth import (
@@ -53,6 +57,19 @@ def send_message(first_name,last_name,my_phone):
                             to=f'+25{my_phone}' 
                             )
 # Users
+
+# account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
+# auth_token = 'c4016b18995ad8012f17a818eebdda06'
+# client = Client(account_sid, auth_token)
+
+# message = client.messages.create(
+#                               body='Hi Urbain',
+#                               from_='+18609578207',
+#                               to='+250787018287' 
+#                               )
+
+
+
 def operator(request):
     if request.method == "POST":
         try:
@@ -77,6 +94,7 @@ def operator(request):
                     PBirth=request.POST["PBirth"],
                     Weight=request.POST["weight"],
                     Height=request.POST["weight"],
+                    typee="CCM",
                     DOB=request.POST["DOB"],
                     email=request.POST["email"],
                     phone=request.POST["phonenumber"],
@@ -89,9 +107,39 @@ def operator(request):
         return render(request, "operator.html")
 
 
+def HCmember(request):
+    if request.method == "POST":
+        try:
+            user1 = User.objects.get(email=request.POST["email"])
+            return render(
+                request, "operator.html", {"error": "The Email  has already been taken"}
+            )
+        except User.DoesNotExist:
+            try:
+                user2 = User.objects.get(phone=request.POST["phonenumber"])
+                return render(
+                    request,
+                    "operator.html",
+                    {"error": "The phone number  has already been taken"},
+                )
+            except User.DoesNotExist:
+                user = User.objects.create_user(
+                    FirstName=request.POST["firstname"],
+                    LastName=request.POST["lastname"],
+                    PBirth=request.POST["PBirth"],
+                    typee="HCM",
+                    email=request.POST["email"],
+                    phone=request.POST["phonenumber"],
+                    password=request.POST["password"],
+                )
+            return redirect("HCuser")
+    else:
+        return render(request, "AddHCusers.html")
+
+
 @login_required(login_url="/login")
 def user(request):
-    users = User.objects.all()
+    users = User.objects.filter(typee='CCM')
     search_query = request.GET.get("search", "")
     if search_query:
         users = User.objects.filter(Q(phone__icontains=search_query))
@@ -99,6 +147,17 @@ def user(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "users.html", {"users": users, "page_obj": page_obj})
+
+@login_required(login_url="/login")
+def HCuser(request):
+    users = User.objects.filter(typee='HCM')
+    search_query = request.GET.get("search", "")
+    if search_query:
+        users = User.objects.filter(Q(phone__icontains=search_query))
+    paginator = Paginator(users, 6)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "HCusers.html", {"users": users, "page_obj": page_obj})
 
 
 @login_required(login_url="/login")
@@ -486,7 +545,7 @@ def add_vaccine(request,userID):
 
 @login_required(login_url="/login")
 def Vaccination(request):
-    users = User.objects.all()
+    users = User.objects.filter(typee='CCM')
     search_query = request.GET.get("search", "")
     if search_query:
         users = User.objects.filter(
@@ -711,3 +770,25 @@ class VaxlistbyID(ListAPIView):
     
     def get_queryset(self):
         return Vaccines.objects.filter(user=self.kwargs['user_id'])
+
+
+def resetPassword(request):
+    if request.method == "POST":
+        user = User.objects.get(email=request.POST["email"])
+        alphabet = string.ascii_letters + string.digits
+        password = ''.join(secrets.choice(alphabet) for i in range(6))
+        my_phone = user.phone
+        name = user.FName
+        user.set_password(password)
+        user.save()
+        account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
+        auth_token = '2b86a18597744c3e8e533204b543fc78'
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(
+                                body=f'Hi {name}, \nYour new password is : {password}',
+                                from_='+18609578207',
+                                to=f'+25{my_phone}' 
+                                )
+        return redirect('login')
+    else:
+        return render(request, "Reset.html")

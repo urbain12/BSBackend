@@ -227,6 +227,16 @@
                                         </a>
                                     </li>
 
+                                    {% url 'user' as opt %}
+                                    <li {% if request.path == opt  %} class="active-sub"{% endif %}>
+                                        <a href="{{opt}}">
+                                            <i class="fa fa-user-plus"></i>
+                                            <span class="menu-title">
+                                                <strong>Children</strong>
+                                            </span>
+                                        </a>
+                                    </li>
+
                                     {% url 'Vaccination' as vax %}
                                     <li {% if request.path == vax  %} class="active-sub"{% endif %}>
                                         <a href="{{vax}}">
@@ -255,15 +265,17 @@
                                             </span>
                                         </a>
                                     </li>
-                                    {% url 'user' as opt %}
+
+                                    {% url 'HCuser' as opt %}
                                     <li {% if request.path == opt  %} class="active-sub"{% endif %}>
                                         <a href="{{opt}}">
-                                            <i class="fa fa-user-plus"></i>
+                                            <i class="fa fa-user-md"></i>
                                             <span class="menu-title">
-                                                <strong>Member</strong>
+                                                <strong>HC Members</strong>
                                             </span>
                                         </a>
                                     </li>
+
                                     {% url 'logout' as url %}
                                     <li {% if request.path == url  %} class="active-sub"{% endif %}>
                                         <a href="{{url}}">

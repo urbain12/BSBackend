@@ -117,7 +117,7 @@ input {
 }
 
 .sign-in-container {
-    left: 0;
+    left: 200px;
     width: 50%;
     z-index: 2;
 }
@@ -261,30 +261,15 @@ footer a {
 </style>
 <body>
 <div class="container" id="container">
-
     <div class="form-container sign-in-container">
-        <form method="POST" action="{% url 'login'%}">
+        <form method="POST" action="{% url 'resetPassword'%}">
             {% csrf_token %}
-            <p style="color:green;font-size:18">{{success}}</p>
-
-            <h1>Sign in</h1>
-
-            <p style="color:red;font-size:18">{{error}}</p>
-            
-            <input type="email" placeholder="Email" name="email" autofocus required/>
-            <input type="password" placeholder="Password" name="password" autofocus required/>
-            <button type="submit" style="width:100%;border-radius: 10px">Log In</button>
-            <a href="{% url 'resetPassword' %}"><u style="color:blue">Forgot you password</u></a>
+            <h2>Reset your Password</h2>
+            <input type="email" placeholder="Enter your Email" name="email" autofocus required/>
+            <button type="submit" style="width:100%;border-radius: 10px">Reset</button>
         </form>
     </div>
-    <div class="overlay-container">
-        <div class="overlay">
-            <div class="overlay-panel overlay-right">
-                <h1>Hello, Admin!</h1>
-                <p>Enter your credentials to login</p>
-            </div>
-        </div>
-    </div>
+    
 </div>
 <script>
 const signUpButton = document.getElementById('signUp');

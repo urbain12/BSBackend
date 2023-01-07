@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Children list</h3>
+                            <h3 class="panel-title">HC Members list</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -16,7 +16,7 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'operator'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                        <a href="{% url 'HCmember'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
 
                                         <div class="btn-group">
                                             <div class="form-group">
@@ -38,42 +38,29 @@
                                             <th class="text-left">ID</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
-                                            <th>Mother's Name</th>
-                                            <th>Father's Name</th>
-                                            <th>Place of Birth</th>
+                                            <th>Work Place</th>
                                             <th>Phone Number</th>
                                             <th>Email</th>
-                                            <th>Date of Birth</th>
-                                            <th>Weight</th>
-                                            <th>Height</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for user in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">HC{{user.id}}</a></td>
+                                            <td><a class="btn-link" href="#">{{user.id}}</a></td>
                                             <td>{{user.FirstName}}</td>
                                             <td>{{user.LastName}}</td>
-                                            <td>{{user.MName}}</td>
-                                            <td>{{user.FName}}</td>
                                             <td>{{user.PBirth}}</td>
                                             <td>{{user.phone}}</td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.DOB}}</td>
-                                            <td>{{user.Weight}} kG</td>
-                                            <td>{{user.Height}} M</td>
                                         <td>
-                                            <a href="{% url 'updateUser' user.id %}">
+                                            {% comment %} <a href="{% url 'updateUser' user.id %}">
                                                 <button class="btn btn-primary">Update</button>
-                                            </a>
+                                            </a> {% endcomment %}
                                             <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_user' user.id %}">
                                                 <button class="btn btn-danger">Delete</button>
-                                            </a>
-                                            <a href="{% url 'Reports' user.id %}">
-                                                <button class="btn btn-success"><i class="fa fa-eye"></i></button>
-                                            </a>
-                                                
+                                            </a>    
                                         </td>
                                     </tr>
 
