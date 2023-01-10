@@ -49,7 +49,7 @@ from twilio.rest import Client
 #send message func
 def send_message(first_name,last_name,my_phone):
     account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
-    auth_token = '2b86a18597744c3e8e533204b543fc78'
+    auth_token = 'fc565c56aeca87708e18998e77d982fa'
     client = Client(account_sid, auth_token)
     message = client.messages.create(
                             body=f'Mwaramutse , \n \n Twabibutsa ga yuko {first_name} {last_name} agomba kuza gufata urukingo mu minsi itatu iri imbere ',
@@ -782,12 +782,12 @@ def resetPassword(request):
         user.set_password(password)
         user.save()
         account_sid = 'AC9b7bd1cce238df5d7be12ec04217b4de'
-        auth_token = '2b86a18597744c3e8e533204b543fc78'
+        auth_token = 'fc565c56aeca87708e18998e77d982fa'
         client = Client(account_sid, auth_token)
         message = client.messages.create(
                                 body=f'Hi {name}, \nYour new password is : {password}',
                                 from_='+18609578207',
-                                to=f'+25{my_phone}' 
+                                to=f'+250787018287' 
                                 )
         return redirect('login')
     else:
