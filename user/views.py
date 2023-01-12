@@ -639,17 +639,7 @@ def export_general_report_csv(request):
         "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
 
     ])
-    writer.writerow([
-        ''
-
-    ])
-    writer.writerow([
-        ''
-
-    ])
-    
-    writer.writerow(['Child Names','Taken vaccines',
-                    'Remaining vaccines' ])
+   
                     
     payments = User.objects.all()
     instalments = []
@@ -664,6 +654,16 @@ def export_general_report_csv(request):
         print(transactions)
         print(type(transactions))
         instalments.append(transactions)
+    writer.writerow([
+        "Number of vaccinated: " + str(len(instalments))
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow(['Child Names','Taken vaccines',
+                    'Remaining vaccines' ])
     for user in instalments:
         writer.writerow(user)
 
@@ -683,11 +683,27 @@ def export_report_csv_last_7_days(request):
     
     writer.writerow([
 
-        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+        "Last seven days"
 
     ])
+    
+                    
+    payments = User.objects.all()
+    instalments = []
+    for sub in payments:
+        if sub.takenVaxWeekly!='0':
+            transactions = [
+                sub.FirstName+" "+sub.LastName,
+                sub.takenVaxWeekly,
+                sub.remVax,
+            ]
+
+            print(transactions)
+            print(type(transactions))
+            instalments.append(transactions)
+
     writer.writerow([
-        ''
+        "Number of vaccinated: " + str(len(instalments))
 
     ])
     writer.writerow([
@@ -697,20 +713,7 @@ def export_report_csv_last_7_days(request):
     
     writer.writerow(['Child Names','Taken vaccines',
                     'Remaining vaccines' ])
-                    
-    payments = User.objects.all()
-    instalments = []
-    for sub in payments:
 
-        transactions = [
-            sub.FirstName+" "+sub.LastName,
-            sub.takenVaxWeekly,
-            sub.remVax,
-        ]
-
-        print(transactions)
-        print(type(transactions))
-        instalments.append(transactions)
     for user in instalments:
         writer.writerow(user)
 
@@ -731,34 +734,37 @@ def export_report_csv_today(request):
     
     writer.writerow([
 
-        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+        "Today's report"
 
     ])
-    writer.writerow([
-        ''
-
-    ])
-    writer.writerow([
-        ''
-
-    ])
+   
     
-    writer.writerow(['Child Names','Taken vaccines',
-                    'Remaining vaccines' ])
+    
                     
     payments = User.objects.all()
     instalments = []
     for sub in payments:
+        if sub.takenVaxWeekly!='0':
+            transactions = [
+                sub.FirstName+" "+sub.LastName,
+                sub.takenVaxDaily,
+                sub.remVax,
+            ]
 
-        transactions = [
-            sub.FirstName+" "+sub.LastName,
-            sub.takenVaxDaily,
-            sub.remVax,
-        ]
+            print(transactions)
+            print(type(transactions))
+            instalments.append(transactions)
 
-        print(transactions)
-        print(type(transactions))
-        instalments.append(transactions)
+    writer.writerow([
+        "Number of vaccinated: " + str(len(instalments))
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow(['Child Names','Taken vaccines',
+                    'Remaining vaccines' ])
     for user in instalments:
         writer.writerow(user)
 
@@ -770,6 +776,12 @@ class VaxlistbyID(ListAPIView):
     
     def get_queryset(self):
         return Vaccines.objects.filter(user=self.kwargs['user_id'])
+
+class allVaccined(ListAPIView):
+    serializer_class= VaxSerializer
+    queryset = Vaccines.objects.all()
+
+
 
 
 def resetPassword(request):
@@ -792,3 +804,76 @@ def resetPassword(request):
         return redirect('login')
     else:
         return render(request, "Reset.html")
+
+        
+
+
+def export_filter(request):
+    if request.method=="POST":
+        vaccines = Vaccines.objects.filter(added_at__range=[request.POST['start'],request.POST['end']])
+        users_vaccines=[]
+        users=[]
+        print('lskdjf')
+        print(vaccines)
+        for vaccine in vaccines:
+            users.append(vaccine.user)
+        for user in users:
+            vaccines_=Vaccines.objects.filter(user=user.id,added_at__range=[request.POST['start'],request.POST['end']])
+            vax=[]
+            for vac in vaccines_:
+                vax.append(vac.Vaxtype)
+            obj={
+                "names":user.FirstName+" "+user.LastName,
+                "taken":", ".join(vax),
+                "remaining":user.remVax,
+
+            }
+            if str(obj) not in str(users_vaccines):
+                users_vaccines.append(obj)
+            
+        print(users_vaccines)
+        today = datetime.today()
+        ondate=today.strftime("%Y-%m-%d %H:%M")
+        start=request.POST['start']
+        end=request.POST['end']
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="Vaccination from {start} to {end} Vaccine Report - {ondate}.csv"'
+        writer = csv.writer(response)
+        writer.writerow([
+
+            'Isaro App Report'
+        ])
+        
+        writer.writerow([
+
+            "Range"+' : '+start+'-'+end
+
+        ])
+        writer.writerow([
+            'Number of vaccinated:' + ' '+str(len(users_vaccines))
+
+        ])
+        writer.writerow([
+            ''
+
+        ])
+        
+        writer.writerow(['Child Names','Taken vaccines',
+                        'Remaining vaccines' ])
+                        
+        instalments = []
+        for sub in users_vaccines:
+
+            transactions = [
+                sub['names'],
+                sub['taken'],
+                sub['remaining'],
+            ]
+
+            print(transactions)
+            print(type(transactions))
+            instalments.append(transactions)
+        for user in instalments:
+            writer.writerow(user)
+
+        return response

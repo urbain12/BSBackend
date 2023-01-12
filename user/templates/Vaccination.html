@@ -20,7 +20,7 @@
                                         <div class="btn-group">
                                             <div class="form-group">
     
-                                                <form class="form-inline my-2 my-lg-0" method="POST" action= "">
+                                                <form class="form-inline my-2 my-lg-0" method="POST" action= "{% url 'export_filter' %}">
                                                     {% csrf_token %}
                                                 <b>From:</b>&nbsp;&nbsp; <input  type="date" name="start"  class="form-control" autocomplete="off" style="height:35px" required>&nbsp;&nbsp;
                                                 <b>TO:</b>&nbsp;&nbsp; <input  type="date" name="end"  class="form-control" autocomplete="off" style="height:35px" required>
