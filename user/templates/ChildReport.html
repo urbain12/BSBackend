@@ -1420,7 +1420,7 @@ display: block
                                                 Vaccine
                                             </th>
                                             <th class="text-center">
-                                                TIME TO GET VACCINE
+                                                KG ON VACCINE
                                             </th>
                                             <th class="text-center">
                                                 VACCINE STATUS
@@ -1431,7 +1431,7 @@ display: block
                                         </tr>
                                         <tbody>
                                         {% for Vaccine in vaccines %}
-                                        <tr><td>{{Vaccine.added_at}}</td><td colspan="3">Type 1</td><td>{{Vaccine.Vaxtype}}</td><td>Taken</td><td>H.C {{Vaccine.Vaxplace}}</td></tr>
+                                        <tr><td>{{Vaccine.added_at}}</td><td>{{Vaccine.Vaxtype}}</td><td colspan="3">{{Vaccine.KG}}KG</td><td>Taken</td><td>H.C {{Vaccine.Vaxplace}}</td></tr>
                                         {% endfor %}
                                         </tbody>
                                     </table>

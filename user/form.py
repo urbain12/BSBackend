@@ -5,4 +5,4 @@ from .models import *
 class VaccineCreateForm(forms.ModelForm):
    class Meta:
      model = Vaccines
-     fields = ['user','Vaxtype','Vaxplace']
+     fields = ['user','Vaxtype','Vaxplace','KG']

@@ -49,10 +49,8 @@
                                             <td>{{msg.FirstName}} {{msg.LastName}}</td>
                                             <td>{{msg.Phone}}</td>
                                             <td>{{msg.category}}</td>
-                                            <td>{{msg.Message|slice:":100"}}....
-                                                <a href="{% url 'full_message' msg.id %}">
-                                                    <b style="color:blue;">Read more</b>
-                                                </a>
+                                            <td>{{msg.Message}}
+                                                
                                             </td>
 
                                             <td>

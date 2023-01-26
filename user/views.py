@@ -81,7 +81,7 @@ def operator(request):
             try:
                 user2 = User.objects.get(phone=request.POST["phonenumber"])
                 return render(
-                    request,
+                    request, 
                     "operator.html",
                     {"error": "The phone number  has already been taken"},
                 )
@@ -175,7 +175,6 @@ def updateUser(request, upID):
         updateuser.phone = request.POST["phonenumber"]
         updateuser.email = request.POST["email"]
         updateuser.save()
-        # Addproduct = True
         return redirect("user")
     else:
         return render(request, "updatemembers.html", {"updateuser": updateuser})
@@ -345,7 +344,6 @@ class UserUpdateView(UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "id"
-
 
 # CMS
 
@@ -534,6 +532,7 @@ def add_vaccine(request,userID):
         AddVaccines = Vaccines()
         AddVaccines.Vaxtype = request.POST['vax']
         AddVaccines.Vaxplace = request.POST['vplace']
+        AddVaccines.KG = request.POST['kg']
         AddVaccines.user = user
         AddVaccines.save()
         return redirect('Vaccination')
@@ -610,6 +609,7 @@ def export_report_csv(request, UserID):
         transactions = [
             
             sub.Vaxtype,
+            sub.KG,
             sub.added_at.strftime("%Y-%m-%d"),
         ]
 

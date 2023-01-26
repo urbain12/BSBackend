@@ -6,7 +6,7 @@ from .form import *
 from django.contrib import admin
 from .models import *
 class VaccineCreateAdmin(admin.ModelAdmin):
-   list_display = ['id','user','Vaxtype', 'Vaxplace', 'added_at']
+   list_display = ['id','user','Vaxtype', 'Vaxplace','KG', 'added_at']
    form = VaccineCreateForm
    search_fields = ['Vaxtype','Vaxplace']
 # Register your models here.
